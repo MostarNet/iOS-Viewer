@@ -1,0 +1,132 @@
+FORMAT: 1A
+HOST: http://mosty.mostar.cz/
+
+# MostarNet
+
+Databázový systém pasportu mostů na pozemních komunikacích
+
+## Seznam správních jednotek [/out/geojson/list.json]
+
+### Všechny povolené správní jednotky [GET]
+
++ Response 200 (application/json)
+
+        {
+          "00811": "SÚS Rychnov nad Kněžnou",
+          "00812": "SÚS Trutnov",
+          "00813": "SÚS Náchod",
+          "00814": "SÚS Jíčín",
+          "00815": "SÚS Hradec Králové",
+          "07021": "Meziměstí",
+          "07022": "Ústí nad Orlicí",
+          "07023": "Pardubice",
+          "07027": "Králíky",
+          "07034": "Česká Třebová",
+          "07036": "Moravská Třebová",
+          "07038": "Náchod",
+          "07050": "Letohrad",
+          "07051": "Hradec Králové",
+          "07059": "Nezařazené",
+          "07060": "Hronov",
+          "07061": "Slatiňany",
+          "07062": "Mladé Buky",
+          "07063": "Lázně Bohdaneč",
+          "07064": "České Libchavy",
+          "07075": "Vyřazené",
+          "07089": "Litomyšl",
+          "00632": "ŘSD ČR, Správa Praha",
+          "00631": "ŘSD ČR, Správa Hradec Králové",
+          "00630": "ŘSD ČR, Správa Pardubice",
+          "01711": "Kroměříž",
+          "01712": "Chrudim",
+          "07102": "Bystřice nad Pernštýnem",
+          "07112": "Teplice",
+          "07115": "SÚS Chrudim",
+          "07116": "Choceň",
+          "07119": "Most",
+          "07120": "Dolní Dvůr",
+          "07123": "Nový Malín",
+          "07125": "Martínkov",
+          "07126": "SÚS Náchod 1",
+          "07127": "SÚS Náchod 2",
+          "07129": "Lanškroun",
+          "07131": "Region Orlicko-Třebovsko",
+          "07148": "Býšť",
+          "07150": "Libchavy",
+          "07152": "Holice",
+          "07154": "Lupenice",
+          "07155": "SÚS Pardubice",
+          "07156": "SÚS Svitavy",
+          "07157": "SÚS Ústí nad Orlicí",
+          "07159": "ŘSD ČR, Závod Brno",
+          "07161": "Chrastava",
+          "07163": "Dobruška",
+          "07165": "Dlouhoňovice",
+          "07167": "Velké Opatovice",
+          "07169": "Křinice"
+        }
+
+
+## Detail správní jednotky [/out/geojson/07150.json]
+
+### Všechny mostní objekty [GET]
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "title": "Libchavy-109M",
+                        "id": 3538,
+                        "files": [
+                            {
+                                "title": "Mostní list",
+                                "type": "htm",
+                                "url": "http://mosty.mostar.cz/out/obj/3538.html"
+                            }
+                        ]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            16.38164711,
+                            50.0145149231
+                        ]
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "properties": {
+                        "title": "Libchavy-112L",
+                        "id": 3554,
+                        "files": [
+                            {
+                                "title": "Mostní list",
+                                "type": "htm",
+                                "url": "http://mosty.mostar.cz/out/obj/3554.html"
+                            }
+                        ]
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            16.3838253021,
+                            50.0112915039
+                        ]
+                    }
+                }
+            ]
+            }
+            
+## Detail mostního objektu [/out/obj/3554.html]
+
+### Mostní list ve formátu HTML [GET]
+
+
++ Response 200 (text/html)
