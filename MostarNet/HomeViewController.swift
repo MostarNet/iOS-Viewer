@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 
+
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
     
     
@@ -18,12 +19,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var segmentedControlDisplay: UISegmentedControl!
     
+    var locationManager : CLLocationManager = {
+        let locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        return locationManager
+    }()
+    
     var showMap = false {
         didSet {
             self.mapView.hidden     = !self.showMap
             self.tableView.hidden   = self.showMap
             
             self.segmentedControlDisplay.selectedSegmentIndex =  (self.showMap ? 0 : 1)
+            
+            if self.showMap {
+                let authorizationStatus = CLLocationManager.authorizationStatus()
+                if (authorizationStatus == CLAuthorizationStatus.NotDetermined) {
+                    self.locationManager.requestWhenInUseAuthorization()
+                }
+            }
         }
     }
     
@@ -64,12 +78,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.region = Region(title: "Libchavy", id: "07150")
         
         self.showMap = false
-        
-        // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
         
     }
     
@@ -113,7 +126,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let item = self.items[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         
         cell.textLabel?.text = item.title
         cell.detailTextLabel?.text = item.subtitle
@@ -149,9 +162,5 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        
-        print(view.annotation)
-    }
     
 }
