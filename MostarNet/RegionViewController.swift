@@ -8,25 +8,38 @@
 
 import UIKit
 
-class RegionViewController: UIViewController, UITabBarDelegate, UITableViewDataSource {
+import CoreData
+
+class RegionViewController: UIViewController, UITabBarDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var items = [Region]()
-    var region: Region?
+    lazy var fetchedResultsController   :NSFetchedResultsController! = {
+        
+        let fetchRequest = NSFetchRequest(entityName: Region.entityName())
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        let fetchResultsController:NSFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataManager.sharedInstance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        return fetchResultsController
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        Region.fetchItems { (items) in
-            self.items = items
-            self.tableView.reloadData()
+        Region.fetchItems {
+            do {
+                try self.fetchedResultsController.performFetch()
+                self.tableView.reloadData()
+            } catch { }
         }
     }
     
@@ -39,39 +52,78 @@ class RegionViewController: UIViewController, UITabBarDelegate, UITableViewDataS
     
     //MARK: TableView
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return self.fetchedResultsController.sections?.count ?? 1
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.region?.title
-    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items.count
+        guard let
+            count = self.fetchedResultsController.sections?[section].numberOfObjects
+            else {
+                return 0
+        }
+        
+        return count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let item = self.items[indexPath.row]
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         
+        guard let
+            item = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Region
+            else {
+                return cell
+        }
+        
         cell.textLabel?.text = item.title
+        
+        if item.isDownloaded {
+            cell.accessoryType = UITableViewCellAccessoryType.DetailButton
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryType.None
+        }
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let item = self.items[indexPath.row]
-        print(self.navigationController?.viewControllers.count)
-        if let
-            count = self.navigationController?.viewControllers.count,
-            vc = self.navigationController?.viewControllers[count - 2] as? HomeViewController {
-            print("bbb")
-            vc.region = item
-            self.navigationController?.popViewControllerAnimated(true)
+        
+        guard let
+            item = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Region
+            else {
+                return
         }
-        //self.performSegueWithIdentifier("toDetail", sender: item)
+        if item.isDownloaded {
+            self.performSegueWithIdentifier("toDetail", sender: item)
+        } else {
+            item.fetchBridgeItems({ (items) in
+                self.tableView.reloadData()
+            })
+        }
     }
     
+    func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        guard let
+            item = self.fetchedResultsController.objectAtIndexPath(indexPath) as? Region
+            else {
+                return
+        }
+        if item.isDownloaded {
+            self.performSegueWithIdentifier("toDetail", sender: item)
+        } else {
+            item.fetchBridgeItems({ (items) in
+                self.tableView.reloadData()
+            })
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let vc = segue.destinationViewController as? RegionDetailViewController, detail = sender as? Region {
+            vc.detail = detail
+        }
+    }
 }

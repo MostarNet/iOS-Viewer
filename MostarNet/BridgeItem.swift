@@ -7,137 +7,133 @@
 //
 
 import UIKit
+
+import CoreData
+
 import CoreLocation
 import MapKit
+
 import CoreSpotlight
 import MobileCoreServices
 
-class BridgeItemGeoJSON: NSObject, MKAnnotation {
+class BridgeItem: NSManagedObject, MKAnnotation, UIActivityItemSource {
     
-    let id      : Int
-    var title   : String?
-    var subtitle   : String?
-    var imageThumb   : UIImage?
-    var coordinate: CLLocationCoordinate2D
+    @NSManaged var id           : UInt16
+    @NSManaged var title        : String!
+    @NSManaged var subtitle     : String!
+    @NSManaged private var photo        : String?
+    @NSManaged var imageThumb   : UIImage?
+    @NSManaged var latitude     : Double
+    @NSManaged var longitude    : Double
+    @NSManaged var region       : Region
+    
+    var photoURL : NSURL? {
+        if let photo = self.photo {
+            let url = NSURL(string: "http://mosty.mostar.cz/data/foto/vse/\(photo)")!
+            return url
+        }
+        return nil
+    }
+    
+    func distanceFromLocation(location: CLLocation) -> CLLocationDistance {
+        let locationItem = CLLocation(latitude: self.latitude, longitude: self.longitude)
+        return locationItem.distanceFromLocation(location)
+    }
+    
+    var coordinate: CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+        }
+    }
+    
+    static var domainIdentifier = "cz.mostar.object"
     
     var url     : String {
         return "http://mosty.mostar.cz/out/obj/\(id).html"
     }
     
-    init(id: Int, title: String, latitude: Float, longitude: Float, subtitle: String, thumbBase64: String?) {
-        self.id = id
-        self.title = title
-        self.subtitle = subtitle
-        
-        self.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
-        
-        super.init()
-        
-        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
-        attributeSet.title = title
-        attributeSet.displayName = title
-        //attributeSet.contentDescription = "iOS-9-Sampler is a code example collection for new features of iOS 9."
-        attributeSet.keywords = ["most"]
-        
-        if let thumbBase64 = thumbBase64,
-            data = NSData(base64EncodedString: thumbBase64, options: NSDataBase64DecodingOptions(rawValue: 0)),
-            image = UIImage(data: data)
-        {
-            self.imageThumb = image
-            let dataImage = UIImageJPEGRepresentation(image, 2.0)
-            attributeSet.thumbnailData = dataImage
-        }
-        
-        //let image = UIImage(named: "m7")!
-        //let data = UIImagePNGRepresentation(image)
-        //attributeSet.thumbnailData = data
-        attributeSet.contentDescription = subtitle
-        attributeSet.supportsNavigation = true
-        attributeSet.latitude = latitude
-        attributeSet.longitude = longitude
-        attributeSet.contentURL = NSURL(string: self.url)
-        attributeSet.namedLocation = title
-        attributeSet.city = subtitle
-        
-        
-        var searchableItem = CSSearchableItem(
-            uniqueIdentifier: "cz.mostar.obj.\(id)",
-            domainIdentifier: "cz.mostar",
-            attributeSet: attributeSet)
-        
-        //searchableItem.
-        
-        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([searchableItem]) { (error) -> Void in
-            if error != nil {
-                print("failed with error:\(error)\n")
-            }
-            else {
-                print("Indexed!\n")
-            }
-        }
-        
-        
+    
+    static func item(id: Int) -> BridgeItem{
+        let item = DataManager.sharedInstance.createEntityWithName(self.entityName(), idParam: "id", idValue: id) as? BridgeItem
+        return item!
     }
     
-    static func bridge(data: [String : AnyObject]) throws -> BridgeItemGeoJSON {
+    func populate(geojson data: [String : AnyObject]) throws {
+        
         guard let
-            properties = data["properties"] as? [String : AnyObject],
-            geometry = data["geometry"] as? [String : AnyObject],
-            coordinates = geometry["coordinates"] as? [Float],
-            id = properties["id"] as? Int,
-            title = properties["title"] as? String,
-            subtitle = properties["subtitle"] as? String,
-            latitude = coordinates[1] as? Float,
-            longitude = coordinates[0] as? Float
+            properties      = data["properties"] as? [String : AnyObject],
+            geometry        = data["geometry"] as? [String : AnyObject],
+            coordinates     = geometry["coordinates"] as? [Double] where coordinates.count > 1,
+            let
+            id          = properties["id"] as? Int,
+            title       = properties["title"] as? String,
+            subtitle    = properties["subtitle"] as? String,
+            photo       = properties["photo"] as? String
             else {
                 throw NSError(domain: "", code: 404, userInfo: nil)
         }
         
-        let thumbBase64 = properties["thumb"] as? String
+        self.latitude    = coordinates[1]
+        self.longitude   = coordinates[0]
         
-        return BridgeItemGeoJSON(id: id, title: title, latitude: latitude, longitude: longitude, subtitle: subtitle, thumbBase64:thumbBase64)
+        if let
+            thumbBase64 = properties["thumb"] as? String,
+            data        = NSData(base64EncodedString: thumbBase64, options: NSDataBase64DecodingOptions(rawValue: 0)),
+            image       = UIImage(data: data) {
+            self.imageThumb = image
+        }
         
+        self.id         = UInt16(id)
+        self.title      = title
+        self.subtitle   = subtitle
+        self.photo = photo
     }
     
-    static func fetchItems(byRegion: String, completionHandler: (items: [BridgeItemGeoJSON]) -> ()) {
+    func searchableItem() -> CSSearchableItem {
+        let attributeSet            = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
+        attributeSet.title          = self.title
+        attributeSet.displayName    = self.title
+        attributeSet.keywords       = ["most"]
+        attributeSet.downloadedDate = NSDate()
+        
+        if let image = self.imageThumb {
+            let dataImage = UIImageJPEGRepresentation(image, 2.0)
+            attributeSet.thumbnailData = dataImage
+        }
+        
+        attributeSet.contentDescription = self.subtitle
+        attributeSet.supportsNavigation = true
+        attributeSet.latitude           = self.coordinate.latitude
+        attributeSet.longitude          = self.coordinate.longitude
+        attributeSet.contentURL         = NSURL(string: self.url)
+        attributeSet.namedLocation      = self.title
+        attributeSet.city               = self.subtitle
+        
+        let searchableItem = CSSearchableItem(
+            uniqueIdentifier:   String(self.id),
+            domainIdentifier:   BridgeItem.domainIdentifier,
+            attributeSet:       attributeSet)
         
         
-        let defaultSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-        var dataTask: NSURLSessionTask?
-        
-        let url = NSURL(string: "http://mosty.mostar.cz/out/geojson/\(byRegion).json")!
-        //let request = NSURLRequest(URL: url)
-        
-        dataTask = defaultSession.dataTaskWithURL(url, completionHandler: { (data, response, error) in
-            if let error = error {
-                completionHandler(items: [])
-            }
-            guard let
-                data            = data,
-                json            = try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as? [String : AnyObject],
-                features  = json["features"] as? [[String : AnyObject]]
-                else {
-                    completionHandler(items: [])
-                    return
-            }
-            var items = [BridgeItemGeoJSON]()
-            for  feature in features {
-                do {
-                    let item = try BridgeItemGeoJSON.bridge(feature)
-                    items.append(item)
-                } catch {
-                    
-                }
-                
-                
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                completionHandler(items: items)
-            })
-            
-        })
-        dataTask?.resume()
+        return searchableItem
+    }
+    
+    
+    //MARK: UIActivityItemProvider
+    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
+        return NSURL(string: self.url)
+    }
+    
+    func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
+        return self.title ?? ""
+    }
+    
+    func activityViewController(activityViewController: UIActivityViewController, thumbnailImageForActivityType activityType: String?, suggestedSize size: CGSize) -> UIImage? {
+        return self.imageThumb
+    }
+    
+    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject {
+        return ""
     }
     
 }

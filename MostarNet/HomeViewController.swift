@@ -8,16 +8,28 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate, NSFetchedResultsControllerDelegate, CLLocationManagerDelegate {
     
-    
-    @IBOutlet weak var labelTitle: UILabel!
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var mapView      : MKMapView!
+    @IBOutlet weak var tableView    : UITableView!
     
     @IBOutlet weak var segmentedControlDisplay: UISegmentedControl!
+    
+    lazy var fetchedResultsController   :NSFetchedResultsController! = {
+        
+        let fetchRequest = NSFetchRequest(entityName: BridgeItem.entityName())
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "region.title", ascending: true), NSSortDescriptor(key: "title", ascending: true)]
+        
+        let fetchResultsController:NSFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataManager.sharedInstance.managedObjectContext, sectionNameKeyPath: "region.title", cacheName: nil)
+        fetchResultsController.delegate = self
+        return fetchResultsController
+    }()
+    
+    
     
     var locationManager : CLLocationManager = {
         let locationManager = CLLocationManager()
@@ -31,57 +43,50 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.tableView.hidden   = self.showMap
             
             self.segmentedControlDisplay.selectedSegmentIndex =  (self.showMap ? 0 : 1)
-            
-            if self.showMap {
-                let authorizationStatus = CLLocationManager.authorizationStatus()
-                if (authorizationStatus == CLAuthorizationStatus.NotDetermined) {
-                    self.locationManager.requestWhenInUseAuthorization()
-                }
-            }
         }
     }
     
-    var region: Region? {
-        didSet {
-            self.labelTitle.text = self.region?.title
-            if let regionId = self.region?.id {
-                BridgeItemGeoJSON.fetchItems(regionId) { (items) in
-                    self.items = items
-                }
-            }
+    func reloadData() {
+        self.tableView.reloadData()
+        
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        if let items = self.fetchedResultsController.fetchedObjects as? [BridgeItem] {
+            self.mapView.addAnnotations(items)
         }
     }
-    
-    var items = [BridgeItemGeoJSON]() {
-        willSet {
-            self.mapView.resignFirstResponder()
-            self.mapView.removeAnnotations(self.items)
-        }
-        didSet {
-            self.tableView.reloadData()
-            
-            self.mapView.addAnnotations(self.items)
-            self.mapView.reloadInputViews()
-            
-            if let coor = self.items.first?.coordinate {
-                self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(coor, 10000, 10000), animated: true)
-            }
-        }
-    }
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.region = Region(title: "Libchavy", id: "07150")
+        
+        do {
+            try self.fetchedResultsController.performFetch()
+            if self.fetchedResultsController.fetchedObjects?.count == 0 {
+                self.performSegueWithIdentifier("toRegion", sender: nil)
+            }
+            self.reloadData()
+        } catch { }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         self.showMap = false
+        
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+        if (authorizationStatus == CLAuthorizationStatus.NotDetermined) {
+            self.locationManager.requestWhenInUseAuthorization()
+        }
+        self.locationManager.startUpdatingLocation()
+        
+        
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        
         
         
     }
@@ -98,7 +103,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if let vc = segue.destinationViewController as? DetailViewController, detail = sender as? BridgeItemGeoJSON{
+        if let vc = segue.destinationViewController as? DetailViewController, detail = sender as? BridgeItem{
             vc.detail = detail
         }
     }
@@ -111,39 +116,71 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //MARK: TableView
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.region?.title
+        return self.fetchedResultsController.sections?.count ?? 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items.count
+        guard let
+            count = self.fetchedResultsController.sections?[section].numberOfObjects
+            else {
+                return 0
+        }
+        
+        return count
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if let sectionInfo = self.fetchedResultsController.sections?[section]
+            where sectionInfo.numberOfObjects > 0,
+            let item = sectionInfo.objects?.first as? BridgeItem{
+            
+            return item.region.title
+        } else {
+            return ""
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let item = self.items[indexPath.row]
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         
-        cell.textLabel?.text = item.title
-        cell.detailTextLabel?.text = item.subtitle
-        cell.imageView?.image = item.imageThumb
+        guard let
+            item = self.fetchedResultsController.objectAtIndexPath(indexPath) as? BridgeItem
+            else {
+                return cell
+        }
         
+        var distanceString: String?
+        
+        if item.latitude > 0 && item.longitude > 0 {
+            let location = CLLocation(latitude: item.latitude, longitude: item.longitude)
+            if let distance = self.locationManager.location?.distanceFromLocation(location) {
+                distanceString = "\(distance) m"
+                if distance > 1000 {
+                    distanceString = "\(String(format: "%.2f",distance / 1000)) km"
+                }
+            }
+        }
+        cell.textLabel?.text        = item.title
+        cell.detailTextLabel?.text  = "\( distanceString != nil ? "[\(distanceString!)]" : "") \(item.subtitle)"
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let item = self.items[indexPath.row]
+        guard let
+            item = self.fetchedResultsController.objectAtIndexPath(indexPath) as? BridgeItem
+            else {
+                return
+        }
         self.performSegueWithIdentifier("toDetail", sender: item)
     }
     
     //MARK: MKMapViewDelegate
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? BridgeItemGeoJSON {
+        
+        if let annotation = annotation as? BridgeItem {
             let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "bridge")
             annotationView.canShowCallout = true
             annotationView.enabled = true
@@ -157,10 +194,42 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if let annotation = view.annotation as? BridgeItemGeoJSON {
+        if let annotation = view.annotation as? BridgeItem {
             self.performSegueWithIdentifier("toDetail", sender: annotation)
         }
     }
     
-    
+    //MARK: actions
+    @IBAction func action(sender: AnyObject) {
+        
+    }
+    //MARK: NSFetchedResultsControllerDelegate
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.reloadData()
+        
+        /*
+         var items = [BridgeItem]() {
+         willSet {
+         self.mapView.resignFirstResponder()
+         self.mapView.removeAnnotations(self.mapView.annotations)
+         }
+         didSet {
+         self.tableView.reloadData()
+         
+         self.mapView.addAnnotations(items)
+         self.mapView.reloadInputViews()
+         
+         if let coor = items.first?.coordinate {
+         self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(coor, 10000, 10000), animated: true)
+         }
+         }
+         }
+         */
+        
+    }
+//MARK: CLLocationManagerDelegate
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locationManager.stopUpdatingLocation()
+        self.tableView.reloadData()
+    }
 }

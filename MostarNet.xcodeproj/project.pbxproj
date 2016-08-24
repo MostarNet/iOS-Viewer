@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D0963CB1D3E4E1D00B56C9F /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0963C91D3E4E1D00B56C9F /* Account.swift */; };
 		2D1AF1BD1D2CECEE00CA6C11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1AF1BC1D2CECEE00CA6C11 /* AppDelegate.swift */; };
 		2D1AF1C21D2CECEE00CA6C11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D1AF1C01D2CECEE00CA6C11 /* Main.storyboard */; };
-		2D1AF1C51D2CECEE00CA6C11 /* MostarNet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D1AF1C31D2CECEE00CA6C11 /* MostarNet.xcdatamodeld */; };
 		2D1AF1C71D2CECEE00CA6C11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D1AF1C61D2CECEE00CA6C11 /* Assets.xcassets */; };
 		2D1AF1CA1D2CECEE00CA6C11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D1AF1C81D2CECEE00CA6C11 /* LaunchScreen.storyboard */; };
 		2D1AF1D51D2CED9600CA6C11 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1AF1D41D2CED9600CA6C11 /* HomeViewController.swift */; };
@@ -18,13 +18,48 @@
 		2D1AF1DB1D2CEE7300CA6C11 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1AF1DA1D2CEE7300CA6C11 /* MapKit.framework */; };
 		2D1AF1DD1D2D6F6400CA6C11 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1AF1DC1D2D6F6400CA6C11 /* Region.swift */; };
 		2D1AF1DF1D2D754E00CA6C11 /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1AF1DE1D2D754E00CA6C11 /* RegionViewController.swift */; };
+		2D3C5F3C1D3B5A0000953FF9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3C5F3B1D3B5A0000953FF9 /* DataManager.swift */; };
+		2D3C5F3F1D3C9B3700953FF9 /* MostarNet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D3C5F3D1D3C9B3700953FF9 /* MostarNet.xcdatamodeld */; };
+		2DB02EFD1D43C85F008E5B3A /* RegionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB02EFC1D43C85F008E5B3A /* RegionDetailViewController.swift */; };
+		2DB163A81D40FEF800B7F1C5 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB163A71D40FEF800B7F1C5 /* NotificationCenter.framework */; };
+		2DB163AB1D40FEF800B7F1C5 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB163AA1D40FEF800B7F1C5 /* TodayViewController.swift */; };
+		2DB163AE1D40FEF800B7F1C5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DB163AC1D40FEF800B7F1C5 /* MainInterface.storyboard */; };
+		2DB163B21D40FEF800B7F1C5 /* MostarNet nearby.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2DB163A51D40FEF800B7F1C5 /* MostarNet nearby.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2DB163B71D4124F700B7F1C5 /* BridgeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1AF1D81D2CEDCC00CA6C11 /* BridgeItem.swift */; };
+		2DB163B81D4124F700B7F1C5 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1AF1DC1D2D6F6400CA6C11 /* Region.swift */; };
+		2DB163B91D4124F700B7F1C5 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3C5F3B1D3B5A0000953FF9 /* DataManager.swift */; };
+		2DB163BA1D4124FB00B7F1C5 /* MostarNet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2D3C5F3D1D3C9B3700953FF9 /* MostarNet.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2DB163B01D40FEF800B7F1C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2D1AF1B11D2CECEE00CA6C11 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2DB163A41D40FEF800B7F1C5;
+			remoteInfo = "MostarNet nearby";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2DB163B61D40FEF900B7F1C5 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2DB163B21D40FEF800B7F1C5 /* MostarNet nearby.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		2D0963C91D3E4E1D00B56C9F /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		2D1AF1B91D2CECEE00CA6C11 /* MostarNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MostarNet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D1AF1BC1D2CECEE00CA6C11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D1AF1C11D2CECEE00CA6C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		2D1AF1C41D2CECEE00CA6C11 /* MostarNet.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MostarNet.xcdatamodel; sourceTree = "<group>"; };
 		2D1AF1C61D2CECEE00CA6C11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D1AF1C91D2CECEE00CA6C11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D1AF1CB1D2CECEE00CA6C11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -34,6 +69,16 @@
 		2D1AF1DA1D2CEE7300CA6C11 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2D1AF1DC1D2D6F6400CA6C11 /* Region.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		2D1AF1DE1D2D754E00CA6C11 /* RegionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
+		2D3C5F3B1D3B5A0000953FF9 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		2D3C5F3E1D3C9B3700953FF9 /* MostarNet.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MostarNet.xcdatamodel; sourceTree = "<group>"; };
+		2DB02EFC1D43C85F008E5B3A /* RegionDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionDetailViewController.swift; sourceTree = "<group>"; };
+		2DB163A51D40FEF800B7F1C5 /* MostarNet nearby.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "MostarNet nearby.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2DB163A71D40FEF800B7F1C5 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		2DB163AA1D40FEF800B7F1C5 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		2DB163AD1D40FEF800B7F1C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		2DB163AF1D40FEF800B7F1C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2DB163BB1D4129A500B7F1C5 /* MostarNet nearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "MostarNet nearby.entitlements"; sourceTree = "<group>"; };
+		2DB163BC1D4129B700B7F1C5 /* MostarNet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MostarNet.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +90,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2DB163A21D40FEF800B7F1C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DB163A81D40FEF800B7F1C5 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -53,6 +106,8 @@
 			children = (
 				2D1AF1DA1D2CEE7300CA6C11 /* MapKit.framework */,
 				2D1AF1BB1D2CECEE00CA6C11 /* MostarNet */,
+				2DB163A91D40FEF800B7F1C5 /* MostarNet nearby */,
+				2DB163A61D40FEF800B7F1C5 /* Frameworks */,
 				2D1AF1BA1D2CECEE00CA6C11 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				2D1AF1B91D2CECEE00CA6C11 /* MostarNet.app */,
+				2DB163A51D40FEF800B7F1C5 /* MostarNet nearby.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,15 +124,14 @@
 		2D1AF1BB1D2CECEE00CA6C11 /* MostarNet */ = {
 			isa = PBXGroup;
 			children = (
+				2DB163BC1D4129B700B7F1C5 /* MostarNet.entitlements */,
 				2D1AF1D31D2CED8000CA6C11 /* controller */,
 				2D1AF1D21D2CED7B00CA6C11 /* view */,
 				2D1AF1D11D2CED7500CA6C11 /* model */,
 				2D1AF1BC1D2CECEE00CA6C11 /* AppDelegate.swift */,
-				2D1AF1C01D2CECEE00CA6C11 /* Main.storyboard */,
 				2D1AF1C61D2CECEE00CA6C11 /* Assets.xcassets */,
 				2D1AF1C81D2CECEE00CA6C11 /* LaunchScreen.storyboard */,
 				2D1AF1CB1D2CECEE00CA6C11 /* Info.plist */,
-				2D1AF1C31D2CECEE00CA6C11 /* MostarNet.xcdatamodeld */,
 			);
 			path = MostarNet;
 			sourceTree = "<group>";
@@ -84,8 +139,11 @@
 		2D1AF1D11D2CED7500CA6C11 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				2D3C5F3D1D3C9B3700953FF9 /* MostarNet.xcdatamodeld */,
+				2D0963C91D3E4E1D00B56C9F /* Account.swift */,
 				2D1AF1D81D2CEDCC00CA6C11 /* BridgeItem.swift */,
 				2D1AF1DC1D2D6F6400CA6C11 /* Region.swift */,
+				2D3C5F3B1D3B5A0000953FF9 /* DataManager.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -93,6 +151,7 @@
 		2D1AF1D21D2CED7B00CA6C11 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				2D1AF1C01D2CECEE00CA6C11 /* Main.storyboard */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -103,8 +162,28 @@
 				2D1AF1D41D2CED9600CA6C11 /* HomeViewController.swift */,
 				2D1AF1D61D2CEDA700CA6C11 /* DetailViewController.swift */,
 				2D1AF1DE1D2D754E00CA6C11 /* RegionViewController.swift */,
+				2DB02EFC1D43C85F008E5B3A /* RegionDetailViewController.swift */,
 			);
 			name = controller;
+			sourceTree = "<group>";
+		};
+		2DB163A61D40FEF800B7F1C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2DB163A71D40FEF800B7F1C5 /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2DB163A91D40FEF800B7F1C5 /* MostarNet nearby */ = {
+			isa = PBXGroup;
+			children = (
+				2DB163BB1D4129A500B7F1C5 /* MostarNet nearby.entitlements */,
+				2DB163AA1D40FEF800B7F1C5 /* TodayViewController.swift */,
+				2DB163AC1D40FEF800B7F1C5 /* MainInterface.storyboard */,
+				2DB163AF1D40FEF800B7F1C5 /* Info.plist */,
+			);
+			path = "MostarNet nearby";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -117,15 +196,34 @@
 				2D1AF1B51D2CECEE00CA6C11 /* Sources */,
 				2D1AF1B61D2CECEE00CA6C11 /* Frameworks */,
 				2D1AF1B71D2CECEE00CA6C11 /* Resources */,
+				2DB163B61D40FEF900B7F1C5 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2DB163B11D40FEF800B7F1C5 /* PBXTargetDependency */,
 			);
 			name = MostarNet;
 			productName = MostarNet;
 			productReference = 2D1AF1B91D2CECEE00CA6C11 /* MostarNet.app */;
 			productType = "com.apple.product-type.application";
+		};
+		2DB163A41D40FEF800B7F1C5 /* MostarNet nearby */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2DB163B31D40FEF900B7F1C5 /* Build configuration list for PBXNativeTarget "MostarNet nearby" */;
+			buildPhases = (
+				2DB163A11D40FEF800B7F1C5 /* Sources */,
+				2DB163A21D40FEF800B7F1C5 /* Frameworks */,
+				2DB163A31D40FEF800B7F1C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MostarNet nearby";
+			productName = "MostarNet nearby";
+			productReference = 2DB163A51D40FEF800B7F1C5 /* MostarNet nearby.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -139,8 +237,27 @@
 				TargetAttributes = {
 					2D1AF1B81D2CECEE00CA6C11 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = BA9C8TYC7C;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
+								enabled = 0;
+							};
+						};
+					};
+					2DB163A41D40FEF800B7F1C5 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = BA9C8TYC7C;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
 						};
@@ -161,6 +278,7 @@
 			projectRoot = "";
 			targets = (
 				2D1AF1B81D2CECEE00CA6C11 /* MostarNet */,
+				2DB163A41D40FEF800B7F1C5 /* MostarNet nearby */,
 			);
 		};
 /* End PBXProject section */
@@ -176,6 +294,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2DB163A31D40FEF800B7F1C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DB163AE1D40FEF800B7F1C5 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -183,17 +309,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D1AF1C51D2CECEE00CA6C11 /* MostarNet.xcdatamodeld in Sources */,
 				2D1AF1D91D2CEDCC00CA6C11 /* BridgeItem.swift in Sources */,
 				2D1AF1DF1D2D754E00CA6C11 /* RegionViewController.swift in Sources */,
+				2DB02EFD1D43C85F008E5B3A /* RegionDetailViewController.swift in Sources */,
 				2D1AF1D71D2CEDA700CA6C11 /* DetailViewController.swift in Sources */,
+				2D3C5F3F1D3C9B3700953FF9 /* MostarNet.xcdatamodeld in Sources */,
 				2D1AF1DD1D2D6F6400CA6C11 /* Region.swift in Sources */,
+				2D0963CB1D3E4E1D00B56C9F /* Account.swift in Sources */,
 				2D1AF1BD1D2CECEE00CA6C11 /* AppDelegate.swift in Sources */,
+				2D3C5F3C1D3B5A0000953FF9 /* DataManager.swift in Sources */,
 				2D1AF1D51D2CED9600CA6C11 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2DB163A11D40FEF800B7F1C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DB163B81D4124F700B7F1C5 /* Region.swift in Sources */,
+				2DB163B91D4124F700B7F1C5 /* DataManager.swift in Sources */,
+				2DB163BA1D4124FB00B7F1C5 /* MostarNet.xcdatamodeld in Sources */,
+				2DB163AB1D40FEF800B7F1C5 /* TodayViewController.swift in Sources */,
+				2DB163B71D4124F700B7F1C5 /* BridgeItem.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2DB163B11D40FEF800B7F1C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2DB163A41D40FEF800B7F1C5 /* MostarNet nearby */;
+			targetProxy = 2DB163B01D40FEF800B7F1C5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2D1AF1C01D2CECEE00CA6C11 /* Main.storyboard */ = {
@@ -210,6 +359,14 @@
 				2D1AF1C91D2CECEE00CA6C11 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2DB163AC1D40FEF800B7F1C5 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2DB163AD1D40FEF800B7F1C5 /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -304,11 +461,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MostarNet/MostarNet.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = MostarNet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mostar.MostarNet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -316,12 +477,41 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MostarNet/MostarNet.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = MostarNet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cz.mostar.MostarNet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		2DB163B41D40FEF900B7F1C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "MostarNet nearby/MostarNet nearby.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "MostarNet nearby/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "cz.mostar.MostarNet.MostarNet-nearby";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		2DB163B51D40FEF900B7F1C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "MostarNet nearby/MostarNet nearby.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "MostarNet nearby/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "cz.mostar.MostarNet.MostarNet-nearby";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -346,15 +536,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		2DB163B31D40FEF900B7F1C5 /* Build configuration list for PBXNativeTarget "MostarNet nearby" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DB163B41D40FEF900B7F1C5 /* Debug */,
+				2DB163B51D40FEF900B7F1C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2D1AF1C31D2CECEE00CA6C11 /* MostarNet.xcdatamodeld */ = {
+		2D3C5F3D1D3C9B3700953FF9 /* MostarNet.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				2D1AF1C41D2CECEE00CA6C11 /* MostarNet.xcdatamodel */,
+				2D3C5F3E1D3C9B3700953FF9 /* MostarNet.xcdatamodel */,
 			);
-			currentVersion = 2D1AF1C41D2CECEE00CA6C11 /* MostarNet.xcdatamodel */;
+			currentVersion = 2D3C5F3E1D3C9B3700953FF9 /* MostarNet.xcdatamodel */;
 			path = MostarNet.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
